@@ -120,8 +120,9 @@ const renderMenuBtns = () => {
 function renderMenuData(menudata) {
   menuContainer.innerHTML = "";
 
-  for (let item of menudata) {
-    let newItem = `<div class="card">
+  if (menudata.length) {
+    for (let item of menudata) {
+      let newItem = `<div class="card">
         <div class="card-left">
           <img src="${item.img}" alt="" width="100" />
         </div>
@@ -136,7 +137,10 @@ function renderMenuData(menudata) {
         </div>
       </div>`;
 
-    menuContainer.innerHTML += newItem;
+      menuContainer.innerHTML += newItem;
+    }
+  } else {
+    menuContainer.innerHTML = "<p class='no-data'>No data found</p>";
   }
 }
 
@@ -144,10 +148,10 @@ renderMenuBtns();
 renderMenuData(data);
 
 search.addEventListener("keyup", (event) => {
-  const filteredSearchData = [];
+  let filteredSearchData = [];
 
-  const value = event.target.value.trim();
-
+  const value = event.target.value.trim(); // diner
+  console.log(value);
   if (value !== "") {
     for (let item of data) {
       if (
