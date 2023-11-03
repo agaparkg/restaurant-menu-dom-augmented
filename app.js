@@ -2,6 +2,7 @@ import data from "./datafile.js";
 
 const menuLabels = document.querySelector(".menu-labels");
 const menuContainer = document.querySelector(".container");
+const search = document.querySelector("#search-input");
 
 const getUniqueNames = (data) => {
   const array = [];
@@ -63,7 +64,9 @@ const filteredCategories = (event) => {
     filteredData = getFilteredData(btnName);
   }
 
-  console.log(filteredData);
+  // console.log(filteredData);
+
+  renderMenuData(filteredData);
   // console.log(event.target.getAttribute("class"));
   // const id = event.target.getAttribute("id")
 };
@@ -113,10 +116,52 @@ const renderMenuBtns = () => {
   }
 };
 
-const renderMenuData = () => {};
+// const renderMenuData = () => {};
+function renderMenuData(menudata) {
+  menuContainer.innerHTML = "";
+
+  for (let item of menudata) {
+    let newItem = `<div class="card">
+        <div class="card-left">
+          <img src="${item.img}" alt="" width="100" />
+        </div>
+        <div class="card-right">
+          <div class="title">
+            <strong>${item.title}</strong>
+            <span>$${item.price}</span>
+          </div>
+          <p>
+            ${item.desc}
+          </p>
+        </div>
+      </div>`;
+
+    menuContainer.innerHTML += newItem;
+  }
+}
 
 renderMenuBtns();
-renderMenuData();
+renderMenuData(data);
+
+search.addEventListener("keyup", (event) => {
+  const filteredSearchData = [];
+
+  const value = event.target.value.trim();
+
+  if (value !== "") {
+    for (let item of data) {
+      if (
+        item.title.includes(value.toLowerCase()) ||
+        item.desc.includes(value)
+        // item.desc.toLowerCase().includes(value.toLowerCase())
+      ) {
+        filteredSearchData.push(item);
+      }
+    }
+
+    renderMenuData(filteredSearchData);
+  }
+});
 
 {
   /* <div class="card">
